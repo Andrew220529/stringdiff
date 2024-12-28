@@ -1,16 +1,26 @@
 "use client";
 
 import { Button, Code, Input } from "@nextui-org/react";
-import { useState } from "react";
-const Diff = require('diff');
+import { JSX, useState } from "react";
+import * as Diff from "diff";
+
+interface DiffPart {
+  count?: number;
+  added?: boolean;
+  removed?: boolean;
+  value?: string;
+}
 
 export default function Home() {
   const [input1, setInput1] = useState("")
   const [input2, setInput2] = useState("")
 
-  const [out, setOut] = useState("")
-  function format(parts: any) {
-    const listItems = parts.map((part: Diff.Change, index: number,) => {
+  const [out, setOut] = useState<JSX.Element[]>([])
+
+  function format(parts: DiffPart[]): JSX.Element[] {
+    console.log(parts);
+    const listItems = parts.map((part: DiffPart, index: number) => {
+      console.log(JSON.stringify(part, null, 2));
       const color = part.added ? 'text-green-600' :
         part.removed ? 'text-red-500 text-decoration-line: line-through' : 'text-black';
 
@@ -20,7 +30,7 @@ export default function Home() {
   }
 
 
-  function clickHangle(event: any): void {
+  function clickHangle() {
     const diff = Diff.diffChars(input1, input2);
     setOut(format(diff))
   }
