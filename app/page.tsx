@@ -18,9 +18,7 @@ export default function Home() {
   const [out, setOut] = useState<JSX.Element[]>([])
 
   function format(parts: DiffPart[]): JSX.Element[] {
-    console.log(parts);
     const listItems = parts.map((part: DiffPart, index: number) => {
-      console.log(JSON.stringify(part, null, 2));
       const color = part.added ? 'text-green-600' :
         part.removed ? 'text-red-500 text-decoration-line: line-through' : 'text-black';
 
